@@ -6,15 +6,9 @@ int main() {
         float base, height;
         int result = scanf("%f %f", &base, &height);
 
-        //printf("%i %f %f\n", result, base, height);
-
         if (result == 0) {
             break;
-        } else if (result == 1) {
-            if (base == 0) {
-                continue;
-            }
-        } else {
+        } else if (result == 2) {
             float area = (base * height) * 1 / 2;
             printf("The area of that triangle is %.1f", area);
         }
