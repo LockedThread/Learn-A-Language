@@ -2,6 +2,8 @@
 #include <malloc.h>
 #include "hashtable.h"
 
+#define TARGET 9
+
 /*
  * https://leetcode.com/problems/two-sum/
  * Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
@@ -20,19 +22,24 @@ int main() {
     nums[2] = 32;
     nums[3] = 4;
 
-    int returnSize;
 
+    printf("Input: [5, 9, 32, 4]\n");
+    printf("Target: %d\n", TARGET);
+    int returnSize;
     int *arr;
-    arr = bruteForceTwoSum(nums, 4, 9, &returnSize);
+    arr = bruteForceTwoSum(nums, 4, TARGET, &returnSize);
+    printf("Brute Force O(n^2): ");
     for (int i = 0; i < returnSize; ++i) {
-        printf("\n%d", arr[i]);
+        printf(i == returnSize - 1 ? "%d]\n" : "[%d, ", arr[i]);
     }
     free(arr);
 
     arr = hashTableTwoSum(nums, 4, 9, &returnSize);
+    printf("Hash Table O(n): ");
     for (int i = 0; i < returnSize; ++i) {
-        printf("\n%d", arr[i]);
+        printf(i == returnSize - 1 ? "%d]" : "[%d, ", arr[i]);
     }
+    free(arr);
 
     return 0;
 }
