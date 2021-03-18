@@ -1,5 +1,4 @@
 #include <malloc.h>
-
 #include "hashtable.h"
 
 unsigned long hash_function(long key) {
@@ -25,7 +24,6 @@ void hashtable_insert(hashtable *table, int key, int value) {
     if (estimate == NULL) {
         if (table->count == table->size) {
             printf("\nInsertion Error: Hash Table is full.");
-            free(estimate);
         } else {
             table->entries[hashValue] = hashtable_create_entry(&key, &value);
             table->count++;
@@ -37,6 +35,7 @@ void hashtable_insert(hashtable *table, int key, int value) {
             // TODO: add collision handling method
         }
     }
+    free(estimate);
 }
 
 hashtable_entry *hashtable_get(hashtable *table, int key) {
