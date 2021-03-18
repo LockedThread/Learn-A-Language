@@ -60,15 +60,15 @@ int *hashTableTwoSum(const int *nums, int numsSize, int target, int *returnSize)
     hashtable *table = hashtable_create(numsSize);
     for (int i = 0; i < numsSize; ++i) {
         int sub = target - nums[i];
-        hashtable_entry *item = hashtable_get(table, sub);
-        if (item != NULL && *item->value != i) {
+        hashtable_entry *entry = hashtable_get(table, sub);
+        if (entry != NULL && *entry->value != i) {
             int *arr = (int *) malloc(sizeof(int) * 2);
             hashtable_free(table);
             if (arr == NULL) {
                 break;
             }
             arr[0] = i;
-            arr[1] = *item->value;
+            arr[1] = *entry->value;
             *returnSize = 2;
             return arr;
         }

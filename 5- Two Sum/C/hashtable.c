@@ -10,9 +10,9 @@ hashtable *hashtable_create(int initialSize) {
     hashtable *table = (hashtable *) malloc(sizeof(hashtable));
     table->size = initialSize;
     table->count = 0;
-    table->items = (hashtable_entry **) calloc(table->size, sizeof(hashtable_entry *));
+    table->entries = (hashtable_entry **) calloc(table->size, sizeof(hashtable_entry *));
     for (int i = 0; i < initialSize; ++i) {
-        table->items[i] = NULL;
+        table->entries[i] = NULL;
     }
     return table;
 }
@@ -20,19 +20,19 @@ hashtable *hashtable_create(int initialSize) {
 void hashtable_insert(hashtable *table, int key, int value) {
     unsigned long hashValue = hash_function(key);
 
-    hashtable_entry *estimate = table->items[hashValue];
+    hashtable_entry *estimate = table->entries[hashValue];
 
     if (estimate == NULL) {
         if (table->count == table->size) {
             printf("\nInsertion Error: Hash Table is full.");
             free(estimate);
         } else {
-            table->items[hashValue] = hashtable_create_item(&key, &value);
+            table->entries[hashValue] = hashtable_create_entry(&key, &value);
             table->count++;
         }
     } else {
         if (estimate->key == &key) {
-            table->items[hashValue]->value = &value;
+            table->entries[hashValue]->value = &value;
         } else {
             // TODO: add collision handling method
         }
@@ -41,15 +41,15 @@ void hashtable_insert(hashtable *table, int key, int value) {
 
 hashtable_entry *hashtable_get(hashtable *table, int key) {
     unsigned long hashValue = hash_function(key);
-    return table->items[hashValue];
+    return table->entries[hashValue];
 }
 
 hashtable_entry *hashtable_remove(hashtable *table, int key) {
     unsigned long hashValue = hash_function(key);
 
-    hashtable_entry *estimate = table->items[hashValue];
+    hashtable_entry *estimate = table->entries[hashValue];
     if (estimate != NULL) {
-        table->items[hashValue] = NULL;
+        table->entries[hashValue] = NULL;
         table->count--;
         return estimate;
     }
@@ -60,27 +60,27 @@ int hashtable_contains(hashtable *table, int key) {
     return hashtable_get(table, key) == NULL ? 0 : 1;
 }
 
-hashtable_entry *hashtable_create_item(int *key, int *value) {
-    hashtable_entry *item = (hashtable_entry *) malloc(sizeof(hashtable_entry));
-    item->key = key;
-    item->value = value;
-    return item;
+hashtable_entry *hashtable_create_entry(int *key, int *value) {
+    hashtable_entry *entry = (hashtable_entry *) malloc(sizeof(hashtable_entry));
+    entry->key = key;
+    entry->value = value;
+    return entry;
 }
 
 void hashtable_free(hashtable *table) {
-    hashtable_entry **items = table->items;
+    hashtable_entry **entries = table->entries;
     for (int i = 0; i < table->size; ++i) {
-        hashtable_entry *current = items[i];
+        hashtable_entry *current = entries[i];
         if (current != NULL) {
-            hashtable_item_free(current);
+            hashtable_entry_free(current);
         }
     }
-    free(table->items);
+    free(table->entries);
     free(table);
 }
 
-void hashtable_item_free(hashtable_entry *item) {
-    free(item->key);
-    free(item->value);
-    free(item);
+void hashtable_entry_free(hashtable_entry *entries) {
+    free(entries->key);
+    free(entries->value);
+    free(entries);
 }

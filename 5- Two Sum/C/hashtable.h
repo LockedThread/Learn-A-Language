@@ -14,10 +14,10 @@ typedef struct {
 } hashtable_entry;
 
 /*
- * Holds an array of hashtable items, the max size, and the current count for used indices.
+ * Holds an array of hashtable entries, the max size, and the current count for used indices.
  */
 typedef struct {
-    hashtable_entry **items;
+    hashtable_entry **entries;
     int size;
     int count;
 } hashtable;
@@ -50,7 +50,7 @@ int hashtable_contains(hashtable *table, int key);
 /*
  * Impl only use. Creates a hashtable_entry object.
  */
-hashtable_entry *hashtable_create_item(int *key, int *value);
+hashtable_entry *hashtable_create_entry(int *key, int *value);
 
 /*
  * Frees the hashtable.
@@ -60,6 +60,6 @@ void hashtable_free(hashtable *table);
 /*
  * Frees a specific hashtable_entry
  */
-void hashtable_item_free(hashtable_entry *item);
+void hashtable_entry_free(hashtable_entry *entries);
 
 #endif //C_HASHTABLE_H
