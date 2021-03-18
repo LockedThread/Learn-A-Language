@@ -20,7 +20,7 @@ int main() {
 
         fgets(functionString, MAX_FUNCTION_SIZE, stdin);
 
-        if (strcmp(functionString,"0") == 0) {
+        if (strcmp(functionString, "0") != 1) {
             // Exit
             break;
         }
