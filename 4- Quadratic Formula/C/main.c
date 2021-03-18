@@ -20,28 +20,22 @@ int main() {
 
         fgets(functionString, MAX_FUNCTION_SIZE, stdin);
 
+        if (strcmp(functionString,"0") == 0) {
+            // Exit
+            break;
+        }
+
         // Removes trailing
         unsigned long len = strlen(functionString);
         if (len > 0 && functionString[len - 1] == '\n')
             functionString[len - 1] = '\0';
 
-        printf("\n%s", functionString);
-
         removeSpaces(functionString);
-
-        printf("\nResult: %s", functionString);
         double a, b, c;
         getQuadraticFunctionVariables(functionString, &a, &b, &c);
         free(functionString);
-
-        printf("\na=%f, b=%f, c=%f", a, b, c);
-
-
         double posRoot = evaluateQuadraticFunction(1, a, b, c), negRoot = evaluateQuadraticFunction(0, a, b, c);
-
         printf("\nposRoot=%f, negRoot=%f", posRoot, negRoot);
-
-        break;
     } while (1);
 }
 
@@ -60,7 +54,6 @@ double evaluateQuadraticFunction(int pos, double a, double b, double c) {
 }
 
 void getQuadraticFunctionVariables(char *sourceString, double *a, double *b, double *c) {
-    printf("\nSource String: %s", sourceString);
     char *copy = strdup(sourceString);
     char *delim = "+-";
     char *p = strtok(sourceString, delim);
