@@ -1,5 +1,5 @@
 #!/bin/bash
-problems=("Addition of Two Numbers" "Sum of 'N' Natural Numbers" "Area of Triangle" "Quadratic Formula" "Working Hours" "Greater of 3 Numbers" "Leap Year" "Palindrome" "Challenge 1")
+problems=("Addition of Two Numbers" "Sum of 'N' Natural Numbers" "Area of Triangle" "Quadratic Formula" "Two Sum" "ZigZag Conversion" "Palindrome" "Longest Palindromic Substring" "Median of Two Sorted Arrays" "" "Challenge 1")
 languages=("C")
 
 create_language_folders () {
