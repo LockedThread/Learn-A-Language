@@ -10,7 +10,7 @@ hashtable *hashtable_create(int initialSize) {
     hashtable *table = (hashtable *) malloc(sizeof(hashtable));
     table->size = initialSize;
     table->count = 0;
-    table->items = (hashtable_item **) calloc(table->size, sizeof(hashtable_item *));
+    table->items = (hashtable_entry **) calloc(table->size, sizeof(hashtable_entry *));
     for (int i = 0; i < initialSize; ++i) {
         table->items[i] = NULL;
     }
@@ -20,7 +20,7 @@ hashtable *hashtable_create(int initialSize) {
 void hashtable_insert(hashtable *table, int key, int value) {
     unsigned long hashValue = hash_function(key);
 
-    hashtable_item *estimate = table->items[hashValue];
+    hashtable_entry *estimate = table->items[hashValue];
 
     if (estimate == NULL) {
         if (table->count == table->size) {
@@ -39,15 +39,15 @@ void hashtable_insert(hashtable *table, int key, int value) {
     }
 }
 
-hashtable_item *hashtable_get(hashtable *table, int key) {
+hashtable_entry *hashtable_get(hashtable *table, int key) {
     unsigned long hashValue = hash_function(key);
     return table->items[hashValue];
 }
 
-hashtable_item *hashtable_remove(hashtable *table, int key) {
+hashtable_entry *hashtable_remove(hashtable *table, int key) {
     unsigned long hashValue = hash_function(key);
 
-    hashtable_item *estimate = table->items[hashValue];
+    hashtable_entry *estimate = table->items[hashValue];
     if (estimate != NULL) {
         table->items[hashValue] = NULL;
         table->count--;
@@ -60,17 +60,17 @@ int hashtable_contains(hashtable *table, int key) {
     return hashtable_get(table, key) == NULL ? 0 : 1;
 }
 
-hashtable_item *hashtable_create_item(int *key, int *value) {
-    hashtable_item *item = (hashtable_item *) malloc(sizeof(hashtable_item));
+hashtable_entry *hashtable_create_item(int *key, int *value) {
+    hashtable_entry *item = (hashtable_entry *) malloc(sizeof(hashtable_entry));
     item->key = key;
     item->value = value;
     return item;
 }
 
 void hashtable_free(hashtable *table) {
-    hashtable_item **items = table->items;
+    hashtable_entry **items = table->items;
     for (int i = 0; i < table->size; ++i) {
-        hashtable_item *current = items[i];
+        hashtable_entry *current = items[i];
         if (current != NULL) {
             hashtable_item_free(current);
         }
@@ -79,7 +79,7 @@ void hashtable_free(hashtable *table) {
     free(table);
 }
 
-void hashtable_item_free(hashtable_item *item) {
+void hashtable_item_free(hashtable_entry *item) {
     free(item->key);
     free(item->value);
     free(item);
